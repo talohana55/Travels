@@ -1,7 +1,7 @@
-const express = require('express');
+const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const app = express();
 
 app.use(cors());
@@ -10,10 +10,10 @@ app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 8080;
 
-app.use(express.static(__dirname + "/dist"));
+app.use(express.static(__dirname + "/dist/client"));
 
-app.route("/*", function (req, res) {
-    res.redirect(__dirname + "/dist/index.html");
+app.get("/*", function (req, res) {
+    res.sendFile(path.join(__dirname + "/dist/client/index.html"));
 });
 
 const authRoutes = require("./routes/auth-routes");
@@ -45,8 +45,8 @@ app.use(function (req, res, next) {
     next();
 });
 
-require('dotenv').config();
-const uri = process.env.MONGO_URI
+require("dotenv").config();
+const uri = process.env.MONGO_URI;
 async function connect() {
     try {
         await mongoose.connect(uri);
