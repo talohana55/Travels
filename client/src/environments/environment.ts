@@ -1,4 +1,4 @@
 export const environment = {
-  production: false,
-  backendBaseUrl: 'http://localhost:3000/api'
+    production: false,
+    backendBaseUrl: "https://ohana-travels.herokuapp.com/api",
 };
