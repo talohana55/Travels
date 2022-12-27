@@ -1,0 +1,34 @@
+<mat-card [@fadeIn]>
+  <mat-card-title>Register</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="registerForm" (ngSubmit)="submit()">
+      <mat-form-field>
+        <input id="email" type="email" matInput placeholder="Email" formControlName="email">
+      </mat-form-field>
+      <mat-form-field>
+        <input id="name" type="text" matInput placeholder="Name" formControlName="name">
+      </mat-form-field>
+      <mat-form-field>
+        <input id="phone" type="phone" matInput placeholder="Phone" formControlName="phone">
+      </mat-form-field>
+      <mat-form-field>
+        <input type="password" matInput placeholder="Password" formControlName="password">
+      </mat-form-field>
+
+      <p *ngIf="error" class="error">
+        {{ error }}
+      </p>
+
+      <div class="button">
+        <button type="submit" mat-raised-button color="primary" [disabled]="registerForm.invalid">
+          Register
+        </button>
+
+      </div>
+      <div>
+        Already have an account?
+        <a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Sign in</a>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

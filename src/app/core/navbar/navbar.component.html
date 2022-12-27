@@ -1,0 +1,53 @@
+<mat-toolbar color="primary">
+
+  <mat-toolbar-row>
+
+    <img class="site-logo" src="assets/logo.png" alt="logo" width="54" height="54" routerLink="/">
+
+    <span class="logo" routerLink='/'>Ohana Travels</span>
+
+    <span class="example-spacer"></span>
+
+    <a matTooltip="Flights" class="nav-icon" routerLink="/flights" routerLinkActive="active" ariaCurrentWhenActive="page" mat-button>
+      <mat-icon>flight</mat-icon>
+    </a>
+
+    <a matTooltip="Cart" class="nav-icon" routerLink="/checkout" routerLinkActive="active" ariaCurrentWhenActive="page" mat-button>
+      <mat-icon>shopping_cart</mat-icon>
+    </a>
+
+      <div *ngIf="(isLoggedIn$ | async); else guestTpl" class="user-details">
+
+        <a class="login-btn" mat-button (click)="logout()">
+          <mat-icon>input</mat-icon> Logout
+        </a>
+
+        <ng-container *ngIf="(loggedInUser$ | async) as loggedInUser">
+
+          <mat-icon class="user-icon">face</mat-icon>
+
+          <span class="user-name">hey, {{loggedInUser.name}}</span>
+
+        </ng-container>
+
+      </div>
+
+      <ng-template #guestTpl>
+
+        <div class="user-details">
+
+          <a class="login-btn" mat-button routerLink="/login">
+            <mat-icon>power</mat-icon> Login now!
+          </a>
+
+          <mat-icon class="user-icon">face</mat-icon>
+
+          <span class="user-name">Guest</span>
+
+        </div>
+
+      </ng-template>
+    
+  </mat-toolbar-row>
+
+</mat-toolbar>

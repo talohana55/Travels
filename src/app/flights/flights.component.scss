@@ -1,0 +1,111 @@
+:host {
+    max-width: 100vw;
+    min-height: calc(100vh - 64px - 64px);
+    grid-template-columns: min-content auto;
+    display: grid;
+    margin: 30px 0;
+    overflow: hidden;
+}
+
+:host-context(.connection) {
+    overflow: hidden;
+    display: block;
+    height: auto;
+    min-height: auto;
+}
+
+.filter-panel {
+    padding: 0 25px;
+}
+
+.filter-sticky {
+    display: flex !important;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+}
+
+table {
+    margin: 0;
+    width: 100%;
+    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+}
+
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.mat-paginator {
+    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+    border-bottom: 1px solid rgb(212 212 212);
+    background-color: white;
+}
+
+.carrier {
+    & img {
+        width: 75px;
+        height: 50px;
+        object-fit: contain;
+    }
+}
+
+.tickets-left {
+    font-size: 12px;
+    margin-top: 7px;
+    text-align: center;
+    font-style: italic;
+    color: #818181;
+}
+
+.ticket-options {
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+}
+
+.options-price {
+    margin: 0;
+    font-weight: bold;
+}
+
+.options-total-price {
+color: #818181;
+    font-size: 10px;
+    margin: 0;
+}
+
+.options-button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    mat-icon {
+        padding: 10px 5px 10px 0;
+    }
+}
+
+.sorting-section {
+    .sorting-radio-group {
+            display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+    
+    .sorting-filter-label {
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+        width: 100%;
+        border-bottom: 1px solid #673bb7;
+        padding-bottom: 5px;
+    }
+}
+
+.add-new-flight {
+    float: left;
+    margin-bottom: 30px;
+}

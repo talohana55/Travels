@@ -1,0 +1,124 @@
+<div class="filter-panel" [ngStyle]="{'display': disableFilter ? 'none' : 'block'}">
+<div class="filter-sticky">
+  <section class="sorting-section">
+    <mat-form-field class="filter">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. EL238" #input>
+    </mat-form-field>
+  </section>
+  
+  <section class="sorting-section">
+    <label class="sorting-filter-label">Properties</label>
+    <mat-checkbox [formControl]="chipestFlightsFirstCtrl" color="primary" 
+      class="sorting-checkbox">Chipest flights first</mat-checkbox>
+  </section>
+  
+  <section class="sorting-section">
+    <label class="sorting-filter-label">Carrier</label>
+    <mat-radio-group
+      class="sorting-radio-group"
+      [formControl]="carrierCtrl">
+      <mat-radio-button color="primary" *ngFor="let carrier of carriers" [value]="carrier">
+        {{carrier}}
+      </mat-radio-button>
+    </mat-radio-group>
+  </section>
+  
+  <section class="sorting-section">
+    <label class="sorting-filter-label">Destination</label>
+    <mat-radio-group
+      class="sorting-radio-group"
+      [formControl]="countryCtrl">
+      <mat-radio-button color="primary" *ngFor="let country of destinationCountries" [value]="country">
+        {{country}}
+      </mat-radio-button>
+    </mat-radio-group>
+  </section>
+</div>
+
+</div>
+
+<div class="table">
+<button *ngIf="isAdmin && !disableAddNewFlight" mat-raised-button class="add-new-flight" 
+     color="primary" (click)="addNewFlight()">+ Add new flight</button>
+  
+  <table mat-table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="flight_num">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Flight Number </th>
+      <td mat-cell *matCellDef="let row"> {{row.flight_num}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="departure">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Departure </th>
+      <td mat-cell *matCellDef="let row"> {{row.departure}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="destination">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Destination </th>
+      <td mat-cell *matCellDef="let row"> {{row.destination}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="carrier_id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Carrier </th>
+      <td mat-cell *matCellDef="let row">
+          <span class="carrier" *ngIf="getAirlineByCid(row.carrier_id) as airline">
+              <img [defaultImage]="defaultImage" [lazyLoad]="airline.symbol" [alt]="airline.name" [matTooltip]="airline.name">
+          </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="departure_datetime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Departure Datetime </th>
+      <td mat-cell *matCellDef="let row"> {{row.departure_datetime | date:'dd/MM/yyyy HH:mm'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="arrival_datetime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Arrival Datetime </th>
+      <td mat-cell *matCellDef="let row"> {{row.arrival_datetime | date:'dd/MM/yyyy HH:mm'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="airline_type">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Airline Type </th>
+      <td mat-cell *matCellDef="let row"> {{row.airline_type}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="options">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row" class="ticket-options">
+            <h1 class="options-price">{{row.price_per_ticket | currency:'USD'}}</h1>
+            <p class="options-total-price" *ngIf="tickets">Total: {{tickets * row.price_per_ticket | currency:'USD'}}</p>
+
+            <div class="options-button-group">
+              <button *ngIf="!isAdmin" mat-raised-button class="book-now"
+                color="primary" (click)="book(row)" [disabled]="isTicketDisabled(row)">
+                <mat-icon>flight</mat-icon>Book now
+              </button>
+
+              <button *ngIf="isAdmin" mat-raised-button class="update-flight" color="primary"
+                  (click)="updateFlight(row.cid)">
+                   <mat-icon matTooltip="Update">create</mat-icon>Update
+                </button>
+                
+                <button *ngIf="isAdmin" mat-raised-button class="remove-flight" color="primary"
+                  (click)="removeFlight(row.cid)">
+                  <mat-icon matTooltip="Remove">delete</mat-icon>Delete
+                </button>
+            </div>
+
+            <p class="tickets-left">{{getTicketTooltip(row)}}</p>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
+
+  <mat-paginator *ngIf="!disablePagination" pageSize="10" [pageSizeOptions]="[5, 10, 25, 100]" 
+    aria-label="Select page of flights"></mat-paginator>
+
+</div>

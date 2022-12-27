@@ -1,0 +1,199 @@
+<ng-container *ngIf="ticketArray">
+    <mat-card>
+        <mat-card-title>
+            <h4>Your flight summary</h4>
+        </mat-card-title>
+
+        <mat-card-content>
+            <div class="flight-box" *ngFor="let flight of flights">
+                <div class="flight-num">
+                    <p>Flight number</p>
+                    <p>{{ flight.flight_num }}</p>
+                </div>
+                <div class="flight-from">
+                    <mat-icon>flight_takeoff</mat-icon>
+                    <span>{{ flight.departure }}</span>
+                    <span class="flight-datetime">{{
+                        flight.departure_datetime | date: "dd/MM/yyyy HH:mm"
+                    }}</span>
+                </div>
+                <div class="flight-to">
+                    <mat-icon>flight_land</mat-icon>
+                    <span>{{ flight.destination }}</span>
+                    <span class="flight-datetime">{{
+                        flight.arrival_datetime | date: "dd/MM/yyyy HH:mm"
+                    }}</span>
+                </div>
+                <div class="flight-duration">
+                    <mat-icon>access_time</mat-icon>
+                    <span>Duration</span>
+                    <span class="flight-datetime">{{getTotalDuration([flight])}}</span>
+                </div>
+                <div class="flight-distance">
+                    <mat-icon>gesture</mat-icon>
+                    <span>Distance</span>
+                    <span class="flight-datetime">{{getTotalDistance([flight])}}</span>
+                </div>
+                <div class="flight-price">
+                    <mat-icon>money</mat-icon>
+                    <span>Ticket Price</span>
+                    <span class="flight-datetime">{{flight.price_per_ticket | currency:'USD'}}</span>
+                </div>
+            </div>
+
+            <div class="flight-totals">
+                <p>Total price for  <mat-icon>loyalty</mat-icon> {{ticketsNumber}} tickets:</p>
+                <p>{{getTotalPrice(flights) | currency:'USD'}}</p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card *ngFor="let ticket of ticketArray?.controls; let i=index;">
+        <ng-container [formGroup]="getTicketFormGroup(i)">
+            <mat-card-title>
+                <h4>Passenger #{{i+1}}</h4>
+            </mat-card-title>
+    
+            <mat-card-content>
+                <div class="form tickets-form">
+    
+                    <mat-form-field class="form-element">
+                        <mat-label>Fullname</mat-label>
+                        <input matInput formControlName="userFullname" />
+                    </mat-form-field>
+    
+                    <mat-form-field class="form-element">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="userEmail" />
+                    </mat-form-field>
+    
+                    <mat-form-field class="form-element">
+                        <mat-label>Phone</mat-label>
+                        <input matInput formControlName="userPhone" />
+                    </mat-form-field>
+    
+                    <mat-form-field class="form-element">
+                        <mat-label>Birthdate</mat-label>
+                        <input type="datetime-local" matInput formControlName="birthdate" />
+                    </mat-form-field>
+    
+                    <mat-form-field class="form-element">
+                        <mat-label>Nationality</mat-label>
+                        <input matInput formControlName="nationality" />
+                    </mat-form-field>
+    
+                    <mat-form-field class="form-element">
+                        <mat-label>Personal ID</mat-label>
+                        <input type="text" matInput formControlName="userId" />
+                    </mat-form-field>
+    
+                    <mat-form-field class="form-element">
+                        <mat-label>Passport Number</mat-label>
+                        <input type="text" matInput formControlName="passportNumber" />
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </ng-container>
+    </mat-card>
+
+    <mat-card>
+        <mat-card-title>
+            <h4>Payment method</h4>
+        </mat-card-title>
+
+        <mat-card-content>
+            <div class="payment-type-container">
+                <mat-radio-group color="primary" aria-label="Select an option" [formControl]="paymentMethodCtrl" [selected]="visa">
+                    <mat-radio-button #visa value="visa"><img class="payment-logo"
+                            src="https://res.cloudinary.com/ffdc/image/upload/v1593768892/cards_logos_drnu5h.png" />
+                    </mat-radio-button>
+                   
+                    <mat-radio-button value="paypal"><img class="payment-logo"
+                            src="https://res.cloudinary.com/ffdc/image/upload/v1593768982/paypal_logo_st1m41.png" />
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div class="card-form-container" *ngIf="paymentMethodCtrl?.value === 'visa'" [formGroup]="creditCardDetails">
+                <div>
+                    <mat-form-field appearance="fill" dense class="example-full-width">
+                        <mat-icon class="card-details-icon" matPrefix dense color="primary">payment</mat-icon>
+                        <mat-label>Card number</mat-label>
+                        <input matInput #input maxlength="16" placeholder="0000-0000-0000-0000" formControlName="cardNumber" />
+                        <mat-hint align="end">{{ input?.value?.length || 0 }}/16</mat-hint>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field floatLabel="never" dense appearance="fill" class="example-full-width">
+                        <mat-icon class="card-details-icon" color="primary" dense matPrefix>person_outline</mat-icon>
+                        <mat-label>Name on card</mat-label>
+                        <input type="text" matInput placeholder="John Doe" />
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field class="expire-month" dense>
+                        <mat-label>Month</mat-label>
+                        <select matNativeControl formControlName="cardExpirationMonth">
+                            <option value="january">01</option>
+                            <option value="february">02</option>
+                            <option value="march">03</option>
+                            <option value="april">04</option>
+                            <option value="may">05</option>
+                            <option value="june">06</option>
+                            <option value="july">07</option>
+                            <option value="august">08</option>
+                            <option value="september">09</option>
+                            <option value="october">10</option>
+                            <option value="november">11</option>
+                            <option value="december">12</option>
+                        </select>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field class="expire-month" dense>
+                        <mat-label>Year</mat-label>
+                        <select matNativeControl formControlName="cardExpirationYear">
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                            <option value="2030">2030</option>
+                        </select>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field dense appearance="fill">
+                        <mat-icon color="primary" matSuffix dense matTooltip="The 3 digits at the back of your card">
+                            help_outline</mat-icon>
+                        <mat-label>CVV</mat-label>
+                        <input type="text" matInput placeholder="000" formControlName="cardCvv" />
+                        <mat-hint>Behind your card</mat-hint>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <mat-slide-toggle color='primary' formControlName="storeCreditDetails">Save my credit card details for future orders</mat-slide-toggle>
+                </div>
+            </div>
+
+            <div class="card-form-container" *ngIf="paymentMethodCtrl?.value === 'paypal'">
+                <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions *ngIf="paymentMethodCtrl?.value === 'visa'">
+            <span class="fill-remaining-space"></span>
+            <button mat-flat-button color="primary" [disabled]="!isFormValid()" (click)="onSubmit()">
+                Pay {{getTotalPrice(flights) | currency:'USD'}}
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</ng-container>

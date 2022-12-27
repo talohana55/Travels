@@ -1,0 +1,33 @@
+.logo {
+    cursor: pointer;
+    margin-right: 10px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-style: italic;
+    font-size: 15px;
+}
+
+.user-details {
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-icon {
+    margin-right: 8px;
+    border-radius: 100px;
+    border: 1px solid;
+    padding: 5px;
+    font-size: 20px;
+    line-height: 25px;
+    text-align: center;
+}
+
+.nav-icon {
+    position: relative;
+    bottom: 2px;
+    padding: 0;
+    min-width: 40px;
+}

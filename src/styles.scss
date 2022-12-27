@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,400;1,700;1,900&display=swap");
+
+* {
+    font-family: 'Lato', sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: rgba(198, 217, 232, 0.3411764706);
+}
+
+.mat-form-field-type-mat-date-range-input .mat-form-field-infix {
+    display: flex;
+    width: 100%;
+    min-width: 278px;
+}
+
+.mat-date-range-input-container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-size: 17px;
+    line-height: 40px;
+}
+
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+    padding: 5px 15px !important;
+}
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+    padding: 0 15px 0 5px !important;
+}
+
+.site-logo {
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+img.ng-lazyloaded {
+  animation: fadein .5s;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.login-btn .mat-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}

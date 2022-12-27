@@ -1,0 +1,118 @@
+<ng-container *ngIf="!searching">
+
+  <div [@fadeIn] *ngIf="states && dateRange && !results?.length && !connectionResultsMap?.size">
+
+    <h1>Find your next vacation...</h1>
+
+    <div class="line">
+      <mat-form-field appearance="fill">
+
+        <mat-label>From</mat-label>
+        <input matInput aria-label="State" [matAutocomplete]="autoFrom" [formControl]="fromStateCtrl">
+
+        <mat-autocomplete #autoFrom="matAutocomplete">
+          <mat-option *ngFor="let state of (fromFilteredStates$ | async)" [value]="state.cityName">
+            <ng-container *ngIf="state.state !== 'anywhere'; else anywhereTpl">
+              <img alt="" class="option-img" [lazyLoad]="state.flag" [defaultImage]="defaultImage" height="25">
+              <span>{{state.cityName}}, {{state.state}}</span>
+            </ng-container>
+            <ng-template #anywhereTpl>
+              <span>Anywhere</span>
+            </ng-template>
+          </mat-option>
+        </mat-autocomplete>
+
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+
+        <mat-label>To</mat-label>
+        <input matInput aria-label="State" [matAutocomplete]="autoTo" [formControl]="toStateCtrl">
+
+        <mat-autocomplete #autoTo="matAutocomplete">
+          <mat-option *ngFor="let state of (toFilteredStates$ | async)" [value]="state.cityName">
+            <ng-container *ngIf="state.state !== 'anywhere'; else anywhereTpl">
+              <img alt="" class="option-img" [lazyLoad]="state.flag" [defaultImage]="defaultImage" height="25">
+              <span>{{state.cityName}}, {{state.state}}</span>
+            </ng-container>
+            <ng-template #anywhereTpl>
+              <span>Anywhere</span>
+            </ng-template>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+    </div>
+
+    <div class="line">
+      <mat-form-field class="tickets" appearance="fill">
+        <mat-label>How many tickets do you need?</mat-label>
+        <input matInput type="number" [formControl]="ticketsCtrl">
+      </mat-form-field>
+
+      <mat-slide-toggle color='primary' [formControl]="connectionFlightCtrl">Allow connection flights</mat-slide-toggle>
+      <mat-slide-toggle color='primary' [formControl]="roundTripCtrl">Round trip (2 ways)</mat-slide-toggle>
+    </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [formGroup]="dateRange" [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Start date">
+        <input matEndDate formControlName="end" placeholder="End date">
+      </mat-date-range-input>
+      <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+
+      <mat-error *ngIf="dateRange.get('start')?.invalid">Invalid start date</mat-error>
+      <mat-error *ngIf="dateRange.get('end')?.invalid">Invalid end date</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button class="submit-btn" color="primary" (click)="search()" [disabled]="formInvalid">
+      Search
+    </button>
+
+  </div>
+
+</ng-container>
+
+<ng-container *ngIf="searching">
+
+  <img class="searching-animation" [lazyLoad]="'assets/search.gif'" alt="searching" width="254px">
+
+</ng-container>
+
+<ng-container *ngIf="!connectionFlightCtrl.value && results?.length">
+
+  <app-flights [flights]="results" [tickets]="ticketsCtrl.value ?? 0"></app-flights>
+
+</ng-container>
+
+<ng-container *ngIf="connectionFlightCtrl.value && connectionResultsMap?.size">
+
+  <div class="connection-flight-options">
+
+    <ng-container *ngFor="let entry of connectionResultsMap | keyvalue">
+
+      <h1 class="connection-title">Option #{{entry.key+1}}</h1>
+
+      <app-flights class="connection" [flights]="entry.value" [tickets]="ticketsCtrl.value ?? 0" [disableBooking]="true"
+        [disableFilter]="true" [disablePagination]="true" [disableAddNewFlight]="true"></app-flights>
+
+      <div class="connection-details">
+
+        <p>Total Duration: {{getTotalDuration(entry.value)}}</p>
+
+        <p>Total Distance: {{getTotalDistance(entry.value)}}</p>
+
+        <button mat-raised-button class="submit-btn" color="primary" (click)="book(entry.value)">
+          Book now for {{getTotalPrice(entry.value) | currency:'USD'}}
+        </button>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</ng-container>

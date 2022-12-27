@@ -1,0 +1,89 @@
+:host {
+  min-height: calc(100vh - 64px - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+
+mat-card-title,
+mat-card-content {
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.option-img {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+[dir="rtl"] .option-img {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
+.line {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  gap: 20px;
+}
+
+.line mat-form-field {
+  min-width: 300px;
+}
+
+.line mat-form-field.tickets {
+  min-width: 200px;
+}
+
+.submit-btn {
+  margin-top: 50px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.mat-form-field {
+  display: block;
+}
+
+.connection-flight-options {
+  margin: 60px auto 30px;
+}
+
+.connection-details {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    margin: 0 auto 20px;
+
+    .submit-btn {
+      grid-column: 1/-1;
+      width: fit-content;
+      margin: auto;
+    }
+}
+.country-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 0 10px;
+  margin: 30px !important;
+}
+.country-img {
+  object-fit: cover;
+  width: 100%;
+  max-height: 100%;
+}

@@ -1,0 +1,128 @@
+<mat-card [@fadeIn]>
+    <mat-card-title>Add new flight</mat-card-title>
+
+    <mat-card-content *ngIf="formGroup">
+        <form [formGroup]="formGroup" (ngSubmit)="submit()">
+            <mat-form-field appearance="fill">
+                <mat-label>Departure</mat-label>
+
+                <input
+                    matInput
+                    aria-label="State"
+                    [matAutocomplete]="autoFrom"
+                    formControlName="departure"
+                />
+
+                <mat-autocomplete #autoFrom="matAutocomplete">
+                    <mat-option
+                        *ngFor="let state of fromFilteredStates$ | async"
+                        [value]="state.cityName"
+                    >
+                        <img
+                            alt=""
+                            class="option-img"
+                            [lazyLoad]="state.flag"
+                            [defaultImage]="defaultImage"
+                            height="25"
+                        />
+                        <span>{{ state.cityName }}, {{ state.state }}</span>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Destination</mat-label>
+                <input
+                    matInput
+                    aria-label="State"
+                    [matAutocomplete]="autoTo"
+                    formControlName="destination"
+                />
+
+                <mat-autocomplete #autoTo="matAutocomplete">
+                    <mat-option
+                        *ngFor="let state of toFilteredStates$ | async"
+                        [value]="state.cityName"
+                    >
+                        <img
+                            alt=""
+                            class="option-img"
+                            [lazyLoad]="state.flag"
+                            [defaultImage]="defaultImage"
+                            height="25"
+                        />
+                        <span>{{ state.cityName }}, {{ state.state }}</span>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" *ngIf="airlines">
+                <mat-label>Select Carrier</mat-label>
+                <mat-select formControlName="carrier_id">
+                    <mat-option
+                        *ngFor="let airline of airlines"
+                        [value]="airline.cid"
+                    >
+                        {{ airline.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Departure Datetime</mat-label>
+                <input
+                    matInput
+                    type="datetime-local"
+                    formControlName="departure_datetime"
+                />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Arrival Datetime</mat-label>
+                <input
+                    matInput
+                    type="datetime-local"
+                    formControlName="arrival_datetime"
+                />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Airline Type</mat-label>
+                <input matInput type="text" formControlName="airline_type" />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Max Capacity</mat-label>
+                <input matInput type="number" formControlName="max_capacity" />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Current Capacity</mat-label>
+                <input
+                    matInput
+                    type="number"
+                    formControlName="current_capacity"
+                />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Price per ticket ($)</mat-label>
+                <input
+                    matInput
+                    type="number"
+                    formControlName="price_per_ticket"
+                />
+            </mat-form-field>
+
+            <button
+                class="submit"
+                type="submit"
+                mat-raised-button
+                color="primary"
+                [disabled]="formGroup.invalid"
+            >
+                {{newRecord ? 'Create flight' : 'Update flight'}}
+            </button>
+        </form>
+    </mat-card-content>
+</mat-card>

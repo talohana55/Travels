@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>How many tickets do you need?</h1>
+
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>I need</mat-label>
+    <input matInput [formControl]="ticketsCtrl">
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-button [mat-dialog-close]="ticketsCtrl.value" cdkFocusInitial [disabled]="!ticketsCtrl.valid">OK</button>
+</div>
