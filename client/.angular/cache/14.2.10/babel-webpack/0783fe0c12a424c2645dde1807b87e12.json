@@ -1,1 +1,0 @@
-{"ast":null,"code":"import { animate, style, transition, trigger } from \"@angular/animations\";\nexport function FadeIn(timingIn) {\n  return trigger(\"fadeIn\", [transition(\":enter\", [style({\n    opacity: 0\n  }), animate(timingIn, style({\n    opacity: 1\n  }))])]);\n}","map":null,"metadata":{},"sourceType":"module"}
