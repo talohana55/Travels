@@ -13,10 +13,6 @@ const PORT = process.env.PORT || 8080;
 
 app.use(express.static(__dirname + "/client/dist/client"));
 
-app.get("/*", function (req, res) {
-    res.sendFile(path.join(__dirname + "/client/dist/client/index.html"));
-});
-
 const authRoutes = require("./routes/auth-routes");
 const userRoutes = require("./routes/user-routes");
 const flightRoutes = require("./routes/flight-routes");
